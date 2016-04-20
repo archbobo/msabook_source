@@ -8,19 +8,18 @@ public class ApplicationConfig {
         System.setProperty("archaius.dynamicPropertyFactory.registerConfigWithJMX", "true");
     }
 
-    public String getStringProperty(String key, String defaultValue) {
-        final DynamicStringProperty property = DynamicPropertyFactory.getInstance().getStringProperty(key,
-            defaultValue);
-        return property.get();
-    }
-
-
     public static void main(String[] args) {
-        ApplicationConfig applicationConfig = new ApplicationConfig();
+    	DynamicStringProperty property = DynamicPropertyFactory.getInstance().getStringProperty("hello.message",
+                "default message");
+        property.addCallback(new Runnable() {
+            	public void run() {
+            		System.out.println("property value updated!");
+            	}
+        });
 
         while (true) {
             try {
-                System.out.println(applicationConfig.getStringProperty("hello.message", "default message"));
+                System.out.println(property.get());
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
