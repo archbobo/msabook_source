@@ -5,7 +5,7 @@ import com.netflix.config.DynamicStringProperty;
 
 public class ApplicationConfig {
 	
-	// passing the system property as a parameter to the vm when you start your application
+	// passing the system property as a parameter to the VM when you start your application
 	// java ... -Darchaius.configurationSource.defaultFileName=customConfig.properties
 	// or set it in the code by uncommenting the following code.
 //	static {

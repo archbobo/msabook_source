@@ -7,9 +7,6 @@ import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.config.DynamicStringProperty;
 
 public class ApplicationConfig {
-    static {
-        System.setProperty("archaius.configurationSource.defaultFileName", "customConfig.properties");
-    }
 
     public ApplicationConfig() {
         cascadeDefaultConfiguration();
@@ -17,7 +14,7 @@ public class ApplicationConfig {
 
     private void cascadeDefaultConfiguration() {
         try {
-            ConfigurationManager.loadCascadedPropertiesFromResources("customConfig");
+            ConfigurationManager.loadCascadedPropertiesFromResources("config");
         } catch (IOException e) {
             e.printStackTrace();
         }
