@@ -11,7 +11,7 @@ public class ApplicationConfigTest {
 	
 	// passing the system property as a parameter to the VM when you start your application
 	// java ... -Darchaius.configurationSource.additionalUrls=your_config.properties
-	// or set it in the code by uncommenting the following code.
+	// or set it in the code using the following code.
 	static {
 	    System.setProperty("archaius.configurationSource.additionalUrls", 
 	    		"https://raw.githubusercontent.com/archcentric/msabook_source/master/ch02/archaius/config/config.properties");
