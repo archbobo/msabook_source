@@ -30,14 +30,10 @@ public class ApplicationConfigTest {
     @Test
     public void shouldReadTheNewValueAfterTheSpecifiedDelay() throws InterruptedException {
         template.update("update properties set property_value = 'changed value' where property_key = 'db.property'");
-        String property = appConfig.getStringProperty("db.property", "default message");
-
-        //We updated the value on the DB but Archaius polls for changes every 1000 milliseconds so it still sees the old value
-        assertThat(property, is("this is a db property"));
 
         Thread.sleep(1500);
 
-        property = appConfig.getStringProperty("db.property", "default message");
+        String property = appConfig.getStringProperty("db.property", "default message");
         assertThat(property, is("changed value"));
     }
 }

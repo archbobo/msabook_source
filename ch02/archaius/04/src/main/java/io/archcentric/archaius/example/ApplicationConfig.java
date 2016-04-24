@@ -18,29 +18,28 @@ import com.netflix.config.sources.JDBCConfigurationSource;
 @Component
 public class ApplicationConfig {
 
-    private final DataSource dataSource;
+	private final DataSource dataSource;
 
-    @Autowired
-    public ApplicationConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
-        installJdbcSource();
-    }
+	@Autowired
+	public ApplicationConfig(DataSource dataSource) {
+		this.dataSource = dataSource;
+		installJdbcSource();
+	}
 
-    public String getStringProperty(String key, String defaultValue) {
-        final DynamicStringProperty property = DynamicPropertyFactory.getInstance().getStringProperty(key,
-            defaultValue);
-        return property.get();
-    }
+	public String getStringProperty(String key, String defaultValue) {
+		final DynamicStringProperty property = DynamicPropertyFactory.getInstance().getStringProperty(key,
+				defaultValue);
+		return property.get();
+	}
 
+	private void installJdbcSource() {
+		if (!isConfigurationInstalled()) {
+			PolledConfigurationSource source = new JDBCConfigurationSource(dataSource,
+					"select distinct property_key, property_value from properties", "property_key", "property_value");
+			DynamicConfiguration configuration = new DynamicConfiguration(source,
+					new FixedDelayPollingScheduler(1000, 1000, true));
 
-    private void installJdbcSource() {
-        if (!isConfigurationInstalled()) {
-            PolledConfigurationSource source = new JDBCConfigurationSource(dataSource,
-                "select distinct property_key, property_value from properties", "property_key", "property_value");
-            DynamicConfiguration configuration = new DynamicConfiguration(source,
-                new FixedDelayPollingScheduler(1000, 1000, true));
-
-            ConfigurationManager.install(configuration);
-        }
-    }
+			ConfigurationManager.install(configuration);
+		}
+	}
 }
